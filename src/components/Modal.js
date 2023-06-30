@@ -1,7 +1,7 @@
 import styles from '../styles/Modal.module.css';
 import React, { useEffect, useRef } from 'react';
 
-const Modal = ({ isOpen, closeModal, children }) => {
+const Modal = ({ isOpen, closeModal, children, cactusName }) => {
   const modalRef = useRef();
 
   const handleOutsideClick = (event) => {
@@ -29,7 +29,7 @@ const Modal = ({ isOpen, closeModal, children }) => {
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
           </svg>
         </button>
-        <h1>Images</h1>
+        <h1>Images for {cactusName}</h1>
         <div className={`${styles.imgsParent}`}>
         {React.Children.map(children, child => {
           if (React.isValidElement(child) && child.type === 'img') {

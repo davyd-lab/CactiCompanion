@@ -31,6 +31,7 @@ export default function Chat() {
   const [waitingForResponse, setWaitingForResponse] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [images, setImages] = useState([]);
+  const [cactusName, setCactusName] = useState('');
 
   // Function to open the modal
   const loadImages = async () => {
@@ -44,6 +45,7 @@ export default function Chat() {
      const data = await res.json();
      console.log('data:', data);
     setImages(data);
+    setCactusName(cactusName);
     setIsModalOpen(true);
   };
 
@@ -111,7 +113,7 @@ setMessages((prevMessages) => [...prevMessages, newMessage]);
 
 
   // Sub-component to render a message with buttons
-  const MessageWithButtons = ({ message, index }) => {
+  const MessageWithButtons = ({ message, index }: { message: Message, index: number }) => {
     const getMoreInfo = () => {
       // Implementation here
     }
@@ -181,10 +183,15 @@ setMessages((prevMessages) => [...prevMessages, newMessage]);
           </div>
         </div>
       </div>
-      <Modal isOpen={isModalOpen} closeModal={closeModal}>
+      <Modal isOpen={isModalOpen} closeModal={closeModal} cactusName={cactusName}>
 
   {images.map((image, index) => (
-    <img key={index} src={image} alt="cactus image" />
+    <img
+  key={index}
+  src={image}
+  onError={(e) => {e.currentTarget.style.display='none'}} 
+  alt="cactus image"
+/>
   ))}
       </Modal>
     </div>
