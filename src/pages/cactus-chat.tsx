@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { ChatCompletionRequestMessageRoleEnum, Configuration, OpenAIApi } from "openai";
 import Header from '../components/Header';
 import Modal from '../components/Modal';
+import { fetchImages } from '../../utils';
 
 // Defining a type for messages
 type Message = {
@@ -33,13 +34,15 @@ export default function Chat() {
 
   // Function to open the modal
   const loadImages = async () => {
-    const cactusName = messages[messages.length - 1]?.content;
+    const cactusName = messages[messages.length - 2]?.content;
+    //console.log(cactusName);
     if (!cactusName) {
       return;
     }
   
-    const res = await fetch(`/api/fetchImages?cactusName=${encodeURIComponent(cactusName)}`);
-    const data = await res.json();
+     const res = await fetch(`/api/fetchImages?cactusName=${encodeURIComponent(cactusName)}`);
+     const data = await res.json();
+     console.log('data:', data);
     setImages(data);
     setIsModalOpen(true);
   };
@@ -63,7 +66,8 @@ export default function Chat() {
       sender: 'You',
       direction: 'outgoing',
     }
-    setMessages([newMessage]);
+    // Add new outgoing message
+setMessages((prevMessages) => [...prevMessages, newMessage]);
 
     setWaitingForResponse(true);
     const response = await getResponse([newMessage]);
@@ -74,8 +78,8 @@ export default function Chat() {
       sender: CHATGPT_USER,
       direction: 'incoming',
     }
-
-    setMessages([newMessage, newMessageResponse]);
+// Add new incoming message
+    setMessages((prevMessages) => [...prevMessages, newMessageResponse]);
     setWaitingForResponse(false);
   }
   // Function to get a response from the chatbot
@@ -104,25 +108,7 @@ export default function Chat() {
 
 
   }
-  // Function to get images from Api for good programmable search (Google Images)
-  async function fetchImages(query) {
-    const response = await fetch(
-      `https://www.googleapis.com/customsearch/v1?key=${process.env.NEXT_PUBLIC_CUSTOM_SEARCH_API_KEY}&cx=${process.env.NEXT_PUBLIC_SEARCH_ENGINE_ID}&q=${query}&searchType=image`,
-      {
-        method: "GET",
-        headers: {
-          "Accept": "application/json"
-        }
-      }
-    );
-  
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
-    } else {
-      const json = await response.json();
-      return json.items.map(item => item.link); // Returning only the image URLs
-    }
-  }
+
 
   // Sub-component to render a message with buttons
   const MessageWithButtons = ({ message, index }) => {
@@ -196,9 +182,9 @@ export default function Chat() {
         </div>
       </div>
       <Modal isOpen={isModalOpen} closeModal={closeModal}>
-      <h1>Images</h1>
+
   {images.map((image, index) => (
-    <img key={index} src={image.link} alt="cactus image" />
+    <img key={index} src={image} alt="cactus image" />
   ))}
       </Modal>
     </div>
