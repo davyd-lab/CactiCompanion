@@ -18,7 +18,6 @@
 .chatContainer {
   width: 100%;
   min-height: 50vh;
-  max-height: 80vh;
 }
 
 .inputContainer {
@@ -58,4 +57,9 @@
 
 .chatMessageList :global .scrollbar-container {
   height: auto;
+}
+
+.more-info-button-wrapper {
+  text-align: center;
+  padding:10px;
 }
