@@ -150,7 +150,7 @@ setMessages((prevMessages) => [...prevMessages, newMessage]);
       <Header />
       <div className={`${styles.container} font-sans`}>
         <h1 className="pb-8 text-2xl pb-8 px-8">CactiCompanion</h1>
-        <p className="pb-8 px-8">The CactiCompanion tool is perfect for both experienced gardeners and beginners. Simply enter the name of a cactus, using either its common or scientific name, and receive tailored care instructions specific to your plant. No more guessing or generic advice, but straightforward, easy-to-follow guidelines for your cactus. Whether you're caring for a hearty saguaro or a delicate fairy castle cactus, CactiCompanion is here to help ensure your plants thrive.</p>
+        <p className="pb-8 px-8">Meet your AI cactus and succulent expert! Ask any plant-care question like 'How do I water a Mammillaria?' or enter a species name, either common like 'Old Man Cactus' or botanical 'Cephalocereus senilis'. This tool is a fantastic starting point for learning about cacti and succulents, but always consult a botanical expert for the most accurate information.</p>
         <div className={styles.chatWrapper}>
 
           <div className={`${styles.chatContainer}`}>
